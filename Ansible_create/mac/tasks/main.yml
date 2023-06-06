@@ -1,0 +1,67 @@
+---
+
+- name: Install Homebrew
+  shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+#  register: homebrew_install_result
+
+#- name: Homebrew Cask repository
+#  homebrew_tap:
+#    tap: homebrew/cask
+#    state: present
+
+#- name: Install Sublime Text
+#  homebrew_cask:
+#    name: sublime-text
+#    state: present
+#  register: sublime_install_result
+#
+#- name: Install VSCode
+#  homebrew_cask:
+#    name: visual-studio-code
+#    state: present
+#  register: vscode_install_result
+#
+#- name: Install Slack
+#  homebrew_cask:
+#    name: slack
+#    state: present
+#  register: slack_install_result
+#
+#- name: Install Python3
+#  homebrew_cask:
+#    name: python
+#    state: present
+#  register: python_install_result
+
+- name: Install Firefox
+  homebrew_cask:
+    name: firefox
+    state: present
+#  register: firefox_install_result
+
+#- name: Install Zoom
+#  homebrew_cask:
+#    name: zoom
+#    state: present
+#  register: zoom_install_result
+#
+#- name: Install GitHub
+#  homebrew_cask:
+#    name: github
+#    state: present
+#  register: github_install_result
+
+#- name: Check installation results
+#  debug:
+#    msg: |
+#      Homebrew installation result: {{ homebrew_install_result.stdout }}
+#      Firefox installation result: {{ firefox_install_result.stdout }}
+#    msg: |
+#      Homebrew installation result: {{ homebrew_install_result.stdout }}
+#      Sublime Text installation result: {{ sublime_install_result.stdout }}
+#      VSCode installation result: {{ vscode_install_result.stdout }}
+#      Slack installation result: {{ slack_install_result.stdout }}
+#      Python installation result: {{ python_install_result.stdout }}
+#      Firefox installation result: {{ firefox_install_result.stdout }}
+#      Zoom installation result: {{ zoom_install_result.stdout }}
+#      Github installation result: {{ github_install_result.stdout }}

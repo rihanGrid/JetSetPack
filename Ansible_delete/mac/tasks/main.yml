@@ -1,0 +1,41 @@
+---
+
+#- name: Uninstall Sublime Text
+#  homebrew_cask:
+#    name: sublime-text
+#    state: absent
+#
+#- name: Uninstall VSCode
+#  homebrew_cask:
+#    name: visual-studio-code
+#    state: absent
+#
+#- name: Uninstall Slack
+#  homebrew_cask:
+#    name: slack
+#    state: absent
+#
+#- name: Uninstall Python3
+#  homebrew_cask:
+#    name: python
+#    state: absent
+
+- name: Uninstall Firefox
+  homebrew_cask:
+    name: firefox
+    state: absent
+
+#- name: Uninstall Zoom
+#  homebrew_cask:
+#    name: zoom
+#    state: absent
+#
+#- name: Uninstall Google Suite
+#  homebrew_cask:
+#    name: google-backup-and-sync
+#    state: absent
+#
+#- name: Uninstall GitHub
+#  homebrew_cask:
+#    name: github
+#    state: absent
