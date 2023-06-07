@@ -9,14 +9,85 @@ from passlib.hash import pbkdf2_sha256
 from django.db.models import Q
 import jwt
 import datetime
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
 
 JWT_SECRET = 'griddynamics'
 
 
+
+
+@swagger_auto_schema(
+    method='post',
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'username': openapi.Schema(type=openapi.TYPE_STRING, description='Username'),
+            'email': openapi.Schema(type=openapi.TYPE_STRING, description='Email'),
+            'password': openapi.Schema(type=openapi.TYPE_STRING, description='Password'),
+        },
+        required=['username', 'email', 'password'],
+    ),
+    responses={
+        201: openapi.Response(
+            description='User Created',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'token': openapi.Schema(type=openapi.TYPE_STRING, description='JWT token'),
+                    'statusText': openapi.Schema(type=openapi.TYPE_STRING, description='Status text'),
+                },
+            ),
+        ),
+        400: openapi.Response(
+            description='Bad Request',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'error': openapi.Schema(type=openapi.TYPE_STRING, description='Error message'),
+                },
+            ),
+        ),
+        409: openapi.Response(
+            description='Conflict',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'error': openapi.Schema(type=openapi.TYPE_STRING, description='Error message'),
+                },
+            ),
+        ),
+        500: openapi.Response(
+            description='Internal Server Error',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'error': openapi.Schema(type=openapi.TYPE_STRING, description='Error message'),
+                },
+            ),
+        ),
+    }
+)
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def signup(request):
+    """
+    User signup.
+
+    This endpoint allows users to sign up by providing their username, email, and password.
+
+    ---
+    # Request Body
+    - `username` (string, required): Username of the user.
+    - `email` (string, required): Email address of the user.
+    - `password` (string, required): Password of the user.
+
+    # Response
+    - `token` (string): JWT token for authentication.
+    - `statusText` (string): Status text indicating the user creation.
+    """
     try:
         data = request.data if request.data is not None else {}
         required_fields = set(['username', 'email', 'password'])
@@ -42,9 +113,74 @@ def signup(request):
         return Response(status=500, data={'error': str(e)})
 
 
+
+
+@swagger_auto_schema(
+    method='post',
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'username': openapi.Schema(type=openapi.TYPE_STRING, description='Username'),
+            'password': openapi.Schema(type=openapi.TYPE_STRING, description='Password'),
+        },
+        required=['username', 'password'],
+    ),
+    responses={
+        200: openapi.Response(
+            description='Success',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'token': openapi.Schema(type=openapi.TYPE_STRING, description='JWT token'),
+                },
+            ),
+        ),
+        400: openapi.Response(
+            description='Bad Request',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'error': openapi.Schema(type=openapi.TYPE_STRING, description='Error message'),
+                },
+            ),
+        ),
+        401: openapi.Response(
+            description='Unauthorized',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'error': openapi.Schema(type=openapi.TYPE_STRING, description='Error message'),
+                },
+            ),
+        ),
+        500: openapi.Response(
+            description='Internal Server Error',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'error': openapi.Schema(type=openapi.TYPE_STRING, description='Error message'),
+                },
+            ),
+        ),
+    }
+)
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login(request):
+    """
+    User login.
+
+    This endpoint allows users to log in by providing their username and password.
+
+    ---
+    # Request Body
+    - `username` (string, required): Username of the user.
+    - `password` (string, required): Password of the user.
+
+    # Response
+    - `token` (string): JWT token for authentication.
+    """
     try:
         data = request.data if request.data is not None else {}
         required_fields = set(['username', 'password'])
@@ -65,8 +201,84 @@ def login(request):
         return Response(status=500, data={'error': str(e)})
 
 
+
+
+@swagger_auto_schema(
+    method='put',
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'username': openapi.Schema(type=openapi.TYPE_STRING, description='Username'),
+            'old_password': openapi.Schema(type=openapi.TYPE_STRING, description='Old password'),
+            'new_password': openapi.Schema(type=openapi.TYPE_STRING, description='New password'),
+        },
+        required=['username', 'old_password', 'new_password'],
+    ),
+    responses={
+        200: openapi.Response(
+            description='Success',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, description='Success message'),
+                },
+            ),
+        ),
+        400: openapi.Response(
+            description='Bad Request',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'error': openapi.Schema(type=openapi.TYPE_STRING, description='Error message'),
+                },
+            ),
+        ),
+        401: openapi.Response(
+            description='Unauthorized',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'error': openapi.Schema(type=openapi.TYPE_STRING, description='Error message'),
+                },
+            ),
+        ),
+        404: openapi.Response(
+            description='Not Found',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'error': openapi.Schema(type=openapi.TYPE_STRING, description='Error message'),
+                },
+            ),
+        ),
+        500: openapi.Response(
+            description='Internal Server Error',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'error': openapi.Schema(type=openapi.TYPE_STRING, description='Error message'),
+                },
+            ),
+        ),
+    }
+)
+
 @api_view(['PUT'])
 def changePassword(request):
+    """
+    Change user password.
+
+    This endpoint allows users to change their password by providing the old and new passwords.
+
+    ---
+    # Request Body
+    - `username` (string, required): Username of the user.
+    - `old_password` (string, required): Old password of the user.
+    - `new_password` (string, required): New password for the user.
+
+    # Response
+    - `message` (string): Success message indicating that the password was updated successfully.
+    """
     try:
         data = request.data if request.data is not None else {}
         required_fields = set(['username', 'old_password', 'new_password'])

@@ -9,12 +9,62 @@ from rest_framework import generics, permissions
 from rest_framework.views import APIView
 import ansible_runner
 import re
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
+
+
+
+@swagger_auto_schema(
+    method='post',
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        required=['ip_address', 'os'],
+        properties={
+            'ip_address': openapi.Schema(type=openapi.TYPE_STRING, description='User\'s IP address'),
+            'os': openapi.Schema(type=openapi.TYPE_STRING, description='User\'s operating system (e.g., "mac")'),
+        },
+    ),
+    responses={
+        200: openapi.Response(
+            description='Inventory file created successfully',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, description='Success message'),
+                },
+            ),
+        ),
+        400: openapi.Response(
+            description='OS not defined',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, description='Error message'),
+                },
+            ),
+        ),
+    }
+)
 
 @api_view(['POST'])
 @permission_classes([CustomIsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def user_info(request):
+    """
+    Store user information.
+
+    This endpoint allows authenticated users to store their information, including IP address and operating system.
+
+    ---
+    # Request Body
+    - `ip_address` (string): User's IP address.
+    - `os` (string): User's operating system (e.g., "mac").
+
+    # Response
+    - `message` (string): Success or error message.
+
+    """
     if request.method == 'POST':
         username = request.user
         ip_address = request.data.get('ip_address')
@@ -34,10 +84,45 @@ def user_info(request):
             return JsonResponse({'message': 'OS not defined'})
 
 
+
+
+@swagger_auto_schema(
+    method='post',
+    responses={
+        200: openapi.Response(
+            description='Installation Successful',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, description='Success message'),
+                },
+            ),
+        ),
+        400: openapi.Response(
+            description='Installation Failed',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, description='Error message'),
+                },
+            ),
+        ),
+    }
+)
+
 @api_view(['POST'])
 @permission_classes([CustomIsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def set_environment(request):
+    """
+    Set environment.
+
+    This endpoint allows authenticated users to set the environment using Ansible.
+
+    ---
+    # Response
+    - `message` (string): Success or error message.
+    """
     inventory_path = '/Users/rsah/Desktop/JetSetPack/jetsetpack/Ansible_create/inventory.ini'
     playbook_path = '/Users/rsah/Desktop/JetSetPack/jetsetpack/Ansible_create/main.yml'
     # host = 'client'
@@ -97,10 +182,44 @@ def set_environment(request):
         return JsonResponse({'message': 'Installation Failed due to some error'})
 
 
+
+@swagger_auto_schema(
+    method='post',
+    responses={
+        200: openapi.Response(
+            description='Deletion Successful',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, description='Success message'),
+                },
+            ),
+        ),
+        400: openapi.Response(
+            description='Deletion Failed',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, description='Error message'),
+                },
+            ),
+        ),
+    }
+)
+
 @api_view(['POST'])
 @permission_classes([CustomIsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def delete_environment(request):
+    """
+    Delete environment.
+
+    This endpoint allows authenticated users to delete the environment using Ansible.
+
+    ---
+    # Response
+    - `message` (string): Success or error message.
+    """
     inventory_path = '/Users/rsah/Desktop/JetSetPack/jetsetpack/Ansible_create/inventory.ini'
     playbook_path = '/Users/rsah/Desktop/JetSetPack/jetsetpack/Ansible_delete/main.yml'
     host = 'client'
@@ -145,10 +264,47 @@ def delete_environment(request):
         return JsonResponse({'message': 'Deletion Failed due to some error'})
     
 
+
+@swagger_auto_schema(
+    method='get',
+    responses={
+        200: openapi.Response(
+            description='Successful',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'app_names': openapi.Schema(
+                        type=openapi.TYPE_ARRAY,
+                        items=openapi.Schema(type=openapi.TYPE_STRING, description='App name'),
+                    ),
+                },
+            ),
+        ),
+        400: openapi.Response(
+            description='Error',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, description='Error message'),
+                },
+            ),
+        ),
+    }
+)
+
 @api_view(['GET'])
 @permission_classes([CustomIsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def get_apps(request):
+    """
+    Get apps.
+
+    This endpoint allows authenticated users to retrieve their associated apps.
+
+    ---
+    # Response
+    - `app_names` (array of strings): Array of app names.
+    """
     try:
         u = request.user
         user = Userapp.objects.filter(username=u).exists()
