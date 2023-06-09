@@ -1,18 +1,18 @@
-from django.shortcuts import render
-from rest_framework.generics import get_object_or_404
+# from django.shortcuts import render
+# from rest_framework.generics import get_object_or_404
 from .models import App, Userapp
 from django.http import JsonResponse
 from .authentication import CustomIsAuthenticated, TokenAuthentication
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
-from django.core import serializers
-from rest_framework import generics, permissions
-from rest_framework.views import APIView
+# from django.core import serializers
+# from rest_framework import generics, permissions
+# from rest_framework.views import APIView
 import ansible_runner
 import re
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-import json
-import requests
+# import json
+# import requests
 from django.shortcuts import redirect
 
 
