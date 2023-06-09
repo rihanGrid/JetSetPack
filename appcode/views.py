@@ -326,12 +326,25 @@ def get_apps(request):
 
 
 @api_view(['POST'])
-# @permission_classes([CustomIsAuthenticated])
-# @authentication_classes([TokenAuthentication])
+@permission_classes([CustomIsAuthenticated])
+@authentication_classes([TokenAuthentication])
 def create_github_account(request):
     if request.method == 'POST':
         try:
             url = 'https://github.com/join' 
+            return redirect(url)
+        except:
+            return JsonResponse({'message':'User is not authenticated'})
+        
+
+
+@api_view(['POST'])
+@permission_classes([CustomIsAuthenticated])
+@authentication_classes([TokenAuthentication])
+def create_slack_account(request):
+    if request.method == 'POST':
+        try:
+            url = 'https://slack.com/signin#/signin' 
             return redirect(url)
         except:
             return JsonResponse({'message':'User is not authenticated'})
