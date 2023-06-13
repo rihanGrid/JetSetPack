@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot</title>
+</head>
+<body>
+    <h1>Chatbot</h1>
+    <div>
+        {% for entry in chat_history %}
+            <p>{{ entry }}</p>
+        {% endfor %}
+    </div>
+    <form method="post" action="{% url 'chatbot' %}">
+        {% csrf_token %}
+        <input type="text" name="human_input" placeholder="Enter your message">
+        <input type="hidden" name="chat_history" value="{{ chat_history|join:', ' }}">
+        <button type="submit">Send</button>
+    </form>
+    
+    {% if bot_response %}
+        <p>Bot response: {{ bot_response }}</p>
+    {% endif %}
+</body>
+</html>
+

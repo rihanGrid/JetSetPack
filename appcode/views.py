@@ -1,4 +1,4 @@
-# from django.shortcuts import render
+from django.shortcuts import render
 # from rest_framework.generics import get_object_or_404
 from .models import App, Userapp
 from django.http import JsonResponse
@@ -12,7 +12,7 @@ import re
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 # import json
-# import requests
+import requests
 from django.shortcuts import redirect
 
 
@@ -352,39 +352,3 @@ def create_slack_account(request):
 
 
 
-# @api_view(['POST'])
-# @permission_classes([CustomIsAuthenticated])
-# @authentication_classes([TokenAuthentication])
-# def create_account(request):
-#     if request.method == 'POST':
-#         try:
-#             data = json.loads(request.body)
-#             email = data.get('email')
-#             username = data.get('username')
-#             password = data.get('password')
-
-#             if email and username and password:
-#                 response = create_github_account(email, username, password)
-#                 return JsonResponse({'message': response.text}, status=response.status_code)
-#             else:
-#                 return JsonResponse({'error': 'Missing email, username, or password'}, status=400)
-#         except json.JSONDecodeError:
-#             return JsonResponse({'error': 'Invalid JSON data'}, status=400)
-#     else:
-#         return JsonResponse({'error': 'Invalid request method'}, status=405)
-
-
-# def create_github_account(email, username, password):
-#     url = "https://api.github.com/user"
-#     headers = {
-#         "Accept": "application/vnd.github.v3+json",
-#         "Content-Type": "application/json",
-#     }
-#     data = {
-#         "email": email,
-#         "login": username,
-#         "password": password,
-#     }
-
-#     response = requests.post(url, headers=headers, data=json.dumps(data))
-#     return response
