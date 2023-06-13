@@ -10,6 +10,7 @@ coreapi==2.3.3
 coreschema==0.0.4
 dataclasses-json==0.5.7
 Django==4.2
+django-cors-headers==4.0.0
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
 docutils==0.19
