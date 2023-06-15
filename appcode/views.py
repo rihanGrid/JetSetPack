@@ -224,12 +224,14 @@ def delete_environment(request):
     """
     inventory_path = '/Users/rsah/Desktop/JetSetPack-1/Ansible_create/inventory.ini'
     playbook_path = '/Users/rsah/Desktop/JetSetPack-1/Ansible_delete/main.yml'
-    host = 'client'
+    hosts = 'client'
+    roles = request.data.get('roles')
 
     try:
         options = {
             'inventory': inventory_path,
             'playbook': playbook_path,
+            'extravars': {'hosts': hosts, 'roles': roles}
         }
         run_ansible = ansible_runner.run(**options)
         for event in run_ansible.events:
