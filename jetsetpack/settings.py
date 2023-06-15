@@ -137,3 +137,7 @@ SWAGGER_SETTINGS = {
 }
 
 API_KEY='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'
+
+INVENTORY_PATH="/Users/rsah/Desktop/JetSetPack-1/Ansible_create/inventory.ini"
+CREATE="/Users/rsah/Desktop/JetSetPack-1/Ansible_create/main.yml"
+DELETE="/Users/rsah/Desktop/JetSetPack-1/Ansible_delete/main.yml"

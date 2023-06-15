@@ -14,6 +14,7 @@ from drf_yasg.utils import swagger_auto_schema
 # import json
 import requests
 from django.shortcuts import redirect
+from jetsetpack.settings import INVENTORY_PATH, CREATE, DELETE
 
 
 
@@ -72,10 +73,7 @@ def user_info(request):
         username = request.user
         ip_address = request.data.get('ip_address')
         os = request.data.get('os')
-        # print("user_name----->", username)
-        # print("ip_address---->", ip_address)
-        # print("operating system---->", os)
-        if os == "mac":
+        if os == "MacOS":
             inventory_line = f"{username}@{ip_address}"
 
             with open('Ansible_create/inventory.ini', 'w') as inventory_file:
@@ -83,6 +81,10 @@ def user_info(request):
 
 
             return JsonResponse({'message': 'Inventory file created successfully'})
+        elif os == "Windows":
+            pass
+        elif os == "CentOS":
+            pass
         else:
             return JsonResponse({'message': 'OS not defined'})
 
@@ -126,8 +128,8 @@ def set_environment(request):
     # Response
     - `message` (string): Success or error message.
     """
-    inventory_path = '/Users/rsah/Desktop/JetSetPack-1/Ansible_create/inventory.ini'
-    playbook_path = '/Users/rsah/Desktop/JetSetPack-1/Ansible_create/main.yml'
+    inventory_path = INVENTORY_PATH
+    playbook_path = CREATE
     hosts = 'client'
     roles = request.data.get('roles')
 
@@ -222,8 +224,8 @@ def delete_environment(request):
     # Response
     - `message` (string): Success or error message.
     """
-    inventory_path = '/Users/rsah/Desktop/JetSetPack-1/Ansible_create/inventory.ini'
-    playbook_path = '/Users/rsah/Desktop/JetSetPack-1/Ansible_delete/main.yml'
+    inventory_path = INVENTORY_PATH
+    playbook_path = DELETE
     hosts = 'client'
     roles = request.data.get('roles')
 
