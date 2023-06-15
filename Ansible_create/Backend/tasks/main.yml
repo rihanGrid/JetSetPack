@@ -1,8 +1,7 @@
 ---
 
-- name: Install Homebrew
-  shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-#  register: homebrew_install_result
+# - name: Install Homebrew
+  # shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 #- name: Homebrew Cask repository
 #  homebrew_tap:
@@ -51,17 +50,4 @@
 #    state: present
 #  register: github_install_result
 
-#- name: Check installation results
-#  debug:
-#    msg: |
-#      Homebrew installation result: {{ homebrew_install_result.stdout }}
-#      Firefox installation result: {{ firefox_install_result.stdout }}
-#    msg: |
-#      Homebrew installation result: {{ homebrew_install_result.stdout }}
-#      Sublime Text installation result: {{ sublime_install_result.stdout }}
-#      VSCode installation result: {{ vscode_install_result.stdout }}
-#      Slack installation result: {{ slack_install_result.stdout }}
-#      Python installation result: {{ python_install_result.stdout }}
-#      Firefox installation result: {{ firefox_install_result.stdout }}
-#      Zoom installation result: {{ zoom_install_result.stdout }}
-#      Github installation result: {{ github_install_result.stdout }}
+

@@ -126,17 +126,16 @@ def set_environment(request):
     # Response
     - `message` (string): Success or error message.
     """
-    inventory_path = '/Users/rsah/Desktop/JetSetPack/jetsetpack/Ansible_create/inventory.ini'
-    playbook_path = '/Users/rsah/Desktop/JetSetPack/jetsetpack/Ansible_create/main.yml'
-    # host = 'client'
-    # host = request.data.get('host')
-    # roles = request.data.get('roles')
+    inventory_path = '/Users/rsah/Desktop/JetSetPack-1/Ansible_create/inventory.ini'
+    playbook_path = '/Users/rsah/Desktop/JetSetPack-1/Ansible_create/main.yml'
+    hosts = 'client'
+    roles = request.data.get('roles')
 
     try:
         options = {
             'inventory': inventory_path,
             'playbook': playbook_path,
-            # 'extravars': {'host': host, 'roles': roles}
+            'extravars': {'hosts': hosts, 'roles': roles}
         }
 
         r = ansible_runner.run(**options)
@@ -223,8 +222,8 @@ def delete_environment(request):
     # Response
     - `message` (string): Success or error message.
     """
-    inventory_path = '/Users/rsah/Desktop/JetSetPack/jetsetpack/Ansible_create/inventory.ini'
-    playbook_path = '/Users/rsah/Desktop/JetSetPack/jetsetpack/Ansible_delete/main.yml'
+    inventory_path = '/Users/rsah/Desktop/JetSetPack-1/Ansible_create/inventory.ini'
+    playbook_path = '/Users/rsah/Desktop/JetSetPack-1/Ansible_delete/main.yml'
     host = 'client'
 
     try:
