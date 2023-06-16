@@ -329,8 +329,6 @@ def get_apps(request):
 
 
 @api_view(['POST'])
-@permission_classes([CustomIsAuthenticated])
-@authentication_classes([TokenAuthentication])
 def create_github_account(request):
     if request.method == 'POST':
         try:
@@ -342,8 +340,6 @@ def create_github_account(request):
 
 
 @api_view(['POST'])
-@permission_classes([CustomIsAuthenticated])
-@authentication_classes([TokenAuthentication])
 def create_slack_account(request):
     if request.method == 'POST':
         try:
