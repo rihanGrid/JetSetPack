@@ -328,9 +328,9 @@ def get_apps(request):
 
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 def create_github_account(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
         try:
             url = 'https://github.com/join' 
             return redirect(url)
@@ -339,9 +339,9 @@ def create_github_account(request):
         
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 def create_slack_account(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
         try:
             url = 'https://slack.com/signin#/signin' 
             return redirect(url)
