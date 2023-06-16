@@ -1,20 +1,20 @@
 from django.shortcuts import render
-# from rest_framework.generics import get_object_or_404
 from .models import App, Userapp
 from django.http import JsonResponse
 from .authentication import CustomIsAuthenticated, TokenAuthentication
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
+import ansible_runner
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from django.shortcuts import redirect
+from jetsetpack.settings import INVENTORY_PATH, CREATE, DELETE
+# from rest_framework.generics import get_object_or_404
+# import json
+# import requests
 # from django.core import serializers
 # from rest_framework import generics, permissions
 # from rest_framework.views import APIView
-import ansible_runner
-import re
-from drf_yasg import openapi
-from drf_yasg.utils import swagger_auto_schema
-# import json
-import requests
-from django.shortcuts import redirect
-from jetsetpack.settings import INVENTORY_PATH, CREATE, DELETE
+# import re
 
 
 
@@ -26,7 +26,7 @@ from jetsetpack.settings import INVENTORY_PATH, CREATE, DELETE
         required=['ip_address', 'os'],
         properties={
             'ip_address': openapi.Schema(type=openapi.TYPE_STRING, description='User\'s IP address'),
-            'os': openapi.Schema(type=openapi.TYPE_STRING, description='User\'s operating system (e.g., "mac")'),
+            'os': openapi.Schema(type=openapi.TYPE_STRING, description='User\'s operating system (e.g., "MacOS")'),
         },
     ),
     responses={
@@ -150,9 +150,9 @@ def set_environment(request):
                 if t_name == 'Gathering Facts':
                     pass
                 else:
-                    regex = re.compile(r"Install\s+(.*)")
-                    matches = regex.findall(t_name)
-                    task_name = matches[0]
+                    matches = t_name.split()
+                    task_name = matches[1]
+                    print(task_name)
                     if task_status:
                         print(f"Task '{task_name}' was successful")
 
@@ -244,9 +244,9 @@ def delete_environment(request):
                 if t_name == 'Gathering Facts':
                     pass
                 else:
-                    regex = re.compile(r"Uninstall\s+(.*)")
-                    matches = regex.findall(t_name)
-                    task_name = matches[0]
+                    matches = t_name.split()
+                    task_name = matches[1]
+                    print(task_name)
                     if task_status:
                         print(f"Task '{task_name}' was successful")
                         user = Userapp.objects.filter(username=request.user).exists()
