@@ -31,12 +31,6 @@
     state: absent
   ignore_errors: yes
 
-- name: Uninstall Django
-  pip3:
-    name: Django
-    state: absent
-  ignore_errors: yes
-
 - name: Uninstall Firefox
   homebrew_cask:
     name: firefox

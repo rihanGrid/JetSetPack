@@ -39,12 +39,6 @@
     state: present
   ignore_errors: yes
 
-- name: Install Django
-  pip3:
-    name: Django
-    state: present
-  ignore_errors: yes
-
 - name: Install Firefox
   homebrew_cask:
     name: firefox
@@ -62,6 +56,3 @@
     name: github
     state: present
   ignore_errors: yes
-
-
-

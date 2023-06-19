@@ -19,21 +19,9 @@
     state: absent
   ignore_errors: yes
 
-- name: Uninstall pyenv
+- name: Uninstall Node
   homebrew_cask:
-    name: pyenv
-    state: absent
-  ignore_errors: yes
-
-- name: Uninstall Python 3.11.4
-  pyenv:
-    version: 3.11.4
-    state: absent
-  ignore_errors: yes
-
-- name: Uninstall Django
-  pip3:
-    name: Django
+    name: node
     state: absent
   ignore_errors: yes
 

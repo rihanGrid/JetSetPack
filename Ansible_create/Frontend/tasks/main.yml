@@ -27,21 +27,9 @@
     state: present
   ignore_errors: yes
 
-- name: Install pyenv
+- name: Install Node
   homebrew_cask:
-    name: pyenv
-    state: present
-  ignore_errors: yes
-
-- name: Install Python 3.11.4
-  pyenv:
-    version: 3.11.4
-    state: present
-  ignore_errors: yes
-
-- name: Install Django
-  pip3:
-    name: Django
+    name: node
     state: present
   ignore_errors: yes
 
@@ -62,6 +50,3 @@
     name: github
     state: present
   ignore_errors: yes
-
-
-
