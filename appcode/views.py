@@ -9,7 +9,7 @@ from drf_yasg.utils import swagger_auto_schema
 from django.shortcuts import redirect
 from jetsetpack.settings import INVENTORY_PATH, CREATE, DELETE
 # from rest_framework.generics import get_object_or_404
-# import json
+import json
 # import requests
 # from django.core import serializers
 # from rest_framework import generics, permissions
@@ -141,6 +141,7 @@ def set_environment(request):
         }
 
         r = ansible_runner.run(**options)
+        res = {}
         for event in r.events:
             if event['event'] == 'runner_on_ok':
                 result = event['event_data']
@@ -154,6 +155,8 @@ def set_environment(request):
                     task_name = matches[1]
                     print(task_name)
                     if task_status:
+                        data = {task_name:"Suscessful"}
+                        res.update(data)
                         print(f"Task '{task_name}' was successful")
 
                         user = Userapp.objects.filter(username=request.user).exists()
@@ -179,8 +182,10 @@ def set_environment(request):
                                 user.app.add(ap)
                                 
                     else:
+                        data = {task_name:"Failed"}
+                        res.update(data)
                         print(f"Task '{task_name}' failed")
-        return JsonResponse({'message': 'Installation Successful'})
+        return JsonResponse({'message': 'Installation Successful', 'data':res})
     except Exception as e:
         print("Installation Failed due to error:", str(e))
         return JsonResponse({'message': 'Installation Failed due to some error'})
@@ -236,6 +241,7 @@ def delete_environment(request):
             'extravars': {'hosts': hosts, 'roles': roles}
         }
         run_ansible = ansible_runner.run(**options)
+        res = {}
         for event in run_ansible.events:
             if event['event'] == 'runner_on_ok':
                 result = event['event_data']
@@ -248,6 +254,8 @@ def delete_environment(request):
                     task_name = matches[1]
                     print(task_name)
                     if task_status:
+                        data = {task_name:"Suscessful"}
+                        res.update(data)
                         print(f"Task '{task_name}' was successful")
                         user = Userapp.objects.filter(username=request.user).exists()
                         if not user:
@@ -262,9 +270,10 @@ def delete_environment(request):
                                 user.app.remove(ap)
 
                     else:
+                        data = {task_name:"Failed"}
+                        res.update(data)
                         print(f"Task '{task_name}' was not successful")
-
-        return JsonResponse({'message': 'Deletion Successful'})
+        return JsonResponse({'message': 'Deletion Successful', 'data': res})
     except Exception as e:
         print("Uninstallation Failed due to error:", str(e))
         return JsonResponse({'message': 'Deletion Failed due to some error'})

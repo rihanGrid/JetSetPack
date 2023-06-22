@@ -1,13 +1,13 @@
 ---
 
-- name: Install Homebrew
-  shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+# - name: Install Homebrew
+#   shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-- name: Homebrew Cask repository
-  homebrew_tap:
-    tap: homebrew/cask
-    state: present
-  ignore_errors: yes
+# - name: Homebrew Cask repository
+#   homebrew_tap:
+#     tap: homebrew/cask
+#     state: present
+#   ignore_errors: yes
 
 - name: Install Sublime Text
   homebrew_cask:
@@ -15,17 +15,17 @@
     state: present
   ignore_errors: yes
 
-- name: Install VSCode
-  homebrew_cask:
-    name: visual-studio-code
-    state: present
-  ignore_errors: yes
+# - name: Install VSCode
+#   homebrew_cask:
+#     name: visual-studio-code
+#     state: present
+#   ignore_errors: yes
 
-- name: Install Slack
-  homebrew_cask:
-    name: slack
-    state: present
-  ignore_errors: yes
+# - name: Install Slack
+#   homebrew_cask:
+#     name: slack
+#     state: present
+#   ignore_errors: yes
 
 - name: Install pyenv
   homebrew_cask:
@@ -33,17 +33,17 @@
     state: present
   ignore_errors: yes
 
-- name: Install Python 3.11.4
-  pyenv:
-    version: 3.11.4
-    state: present
-  ignore_errors: yes
+# - name: Install Python 3.11.4
+#   pyenv:
+#     version: 3.11.4
+#     state: present
+#   ignore_errors: yes
 
-- name: Install Django
-  pip3:
-    name: Django
-    state: present
-  ignore_errors: yes
+# - name: Install Django
+#   pip3:
+#     name: Django
+#     state: present
+#   ignore_errors: yes
 
 - name: Install Firefox
   homebrew_cask:
@@ -51,17 +51,17 @@
     state: present
   ignore_errors: yes
 
-- name: Install Zoom
-  homebrew_cask:
-    name: zoom
-    state: present
-  ignore_errors: yes
+# - name: Install Zoom
+#   homebrew_cask:
+#     name: zoom
+#     state: present
+#   ignore_errors: yes
 
-- name: Install GitHub
-  homebrew_cask:
-    name: github
-    state: present
-  ignore_errors: yes
+# - name: Install GitHub
+#   homebrew_cask:
+#     name: github
+#     state: present
+#   ignore_errors: yes
 
 
 
