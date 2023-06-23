@@ -1,13 +1,13 @@
 ---
 
-# - name: Install Homebrew
-#   shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+- name: Install Homebrew
+  shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# - name: Homebrew Cask repository
-#   homebrew_tap:
-#     tap: homebrew/cask
-#     state: present
-#   ignore_errors: yes
+- name: Homebrew Cask repository
+  homebrew_tap:
+    tap: homebrew/cask
+    state: present
+  ignore_errors: yes
 
 - name: Install Sublime Text
   homebrew_cask:
@@ -27,11 +27,11 @@
 #     state: present
 #   ignore_errors: yes
 
-- name: Install pyenv
-  homebrew_cask:
-    name: pyenv
-    state: present
-  ignore_errors: yes
+# - name: Install pyenv
+#   homebrew_cask:
+#     name: pyenv
+#     state: present
+#   ignore_errors: yes
 
 # - name: Install Python 3.11.4
 #   pyenv:
@@ -57,11 +57,11 @@
 #     state: present
 #   ignore_errors: yes
 
-# - name: Install GitHub
-#   homebrew_cask:
-#     name: github
-#     state: present
-#   ignore_errors: yes
+- name: Install GitHub
+  homebrew_cask:
+    name: github
+    state: present
+  ignore_errors: yes
 
 
 

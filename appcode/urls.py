@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import user_info, set_environment, delete_environment, get_apps, create_github_account, create_slack_account
+from .views import user_info, set_environment, delete_environment, get_apps, create_github_account, create_slack_account, create_app, create_role, get_role_apps
 from .chatbot import chat_bot
 
 urlpatterns = [
@@ -10,4 +10,7 @@ urlpatterns = [
     path('create_github_account/', create_github_account, name='create_github_account'),
     path('create_slack_account/', create_slack_account, name='create_slack_account'),
     path('chat_bot/', chat_bot, name='chatbot'),
+    path('create_role/', create_role, name='create_role'),
+    path('create_app/', create_app, name='create_app'),
+    path('get_role_apps/', get_role_apps, name='get_role_apps'),
 ]

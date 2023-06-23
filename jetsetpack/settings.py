@@ -136,7 +136,7 @@ SWAGGER_SETTINGS = {
     'DEFAULT_INFO': 'jetsetpack.urls.swagger_info',  # Replace 'your_project' with your actual project name
 }
 
-API_KEY='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'
+API_KEY='YAiGuqNY3r1Ss74xlpqPKtz98VCKz1F0EKQ56bw-7RkxHA-8BbwL-vATluanxdAswWD_1g.'
 
 INVENTORY_PATH="/Users/rsah/Desktop/JetSetPack-1/Ansible_create/inventory.ini"
 CREATE="/Users/rsah/Desktop/JetSetPack-1/Ansible_create/main.yml"

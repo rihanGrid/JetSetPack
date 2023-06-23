@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import Auth, Userapp, App
+from . models import Auth, Userapp, App, Role, AppName
 # Register your models here.
 
 class AuthAdmin(admin.ModelAdmin):
@@ -8,3 +8,5 @@ class AuthAdmin(admin.ModelAdmin):
 admin.site.register(Auth, AuthAdmin)
 admin.site.register(Userapp)
 admin.site.register(App)
+admin.site.register(Role)
+admin.site.register(AppName)

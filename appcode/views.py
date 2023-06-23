@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import App, Userapp
+from .models import App, Userapp, AppName, Role
 from django.http import JsonResponse
 from .authentication import CustomIsAuthenticated, TokenAuthentication
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
@@ -125,6 +125,8 @@ def set_environment(request):
     This endpoint allows authenticated users to set the environment using Ansible.
 
     ---
+    # Request Body
+    - `roles` (string): User's role address.
     # Response
     - `message` (string): Success or error message.
     """
@@ -333,6 +335,61 @@ def get_apps(request):
                 print(app_name)
             return JsonResponse({'app_names': app_names})
     except:
+        return JsonResponse({'message':'Some error occured'})
+    
+
+@api_view(['POST'])
+def create_role(request):
+    try:
+        role_name = request.data.get('role')
+        if Role.objects.filter(name=role_name).exists():
+            return JsonResponse({'message':'Role already exists'})
+        else:
+           role = Role.objects.create(name=role_name)
+           return JsonResponse({'message':'Role added Suscessfully'})
+    except Exception as e:
+        print('Uninstallation Failed due to error:', str(e))
+        return JsonResponse({'message':'Some error occured'})
+
+
+@api_view(['POST'])
+def create_app(request):
+    try:
+        role_name = request.data.get('role')
+        app_name = request.data.get('app')
+        if Role.objects.filter(name=role_name).exists():
+            if AppName.objects.filter(name=app_name).exists():
+                ro = Role.objects.get(name = role_name)
+                ap = AppName.objects.get(name=app_name)
+                ro.apps.add(ap)
+            else:
+                ro = Role.objects.get(name = role_name)
+                ap = AppName.objects.create(name = app_name)
+                ro.apps.add(ap)
+                return JsonResponse({'message':'Apps added Suscessfully'})
+        else:
+            return JsonResponse({'message':'Role does not exist'})
+    except Exception as e:
+        print('Uninstallation Failed due to error:', str(e))
+        return JsonResponse({'message':'Some error occured'})
+
+
+
+@api_view(['GET'])
+def get_role_apps(request):
+    try:
+        role_name = request.data.get('role')
+        if Role.objects.filter(name=role_name).exists():
+            role = Role.objects.get(name = role_name)
+            related_apps = role.apps.all()
+            app_names = [app.name for app in related_apps]
+            for app_name in app_names:
+                print(app_name)
+            return JsonResponse({'app_names': app_names})
+        else:
+            return JsonResponse({'message':'Invalid Role'})
+    except Exception as e:
+        print('Uninstallation Failed due to error:', str(e))
         return JsonResponse({'message':'Some error occured'})
 
 

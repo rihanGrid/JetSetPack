@@ -5,37 +5,36 @@
     name: sublime-text
     state: absent
   ignore_errors: yes
-  
 
-- name: Uninstall VSCode
-  homebrew_cask:
-    name: visual-studio-code
-    state: absent
-  ignore_errors: yes
+# - name: Uninstall VSCode
+#   homebrew_cask:
+#     name: visual-studio-code
+#     state: absent
+#   ignore_errors: yes
 
-- name: Uninstall Slack
-  homebrew_cask:
-    name: slack
-    state: absent
-  ignore_errors: yes
+# - name: Uninstall Slack
+#   homebrew_cask:
+#     name: slack
+#     state: absent
+#   ignore_errors: yes
 
-- name: Uninstall pyenv
-  homebrew_cask:
-    name: pyenv
-    state: absent
-  ignore_errors: yes
+# - name: Uninstall pyenv
+#   homebrew_cask:
+#     name: pyenv
+#     state: absent
+#   ignore_errors: yes
 
-- name: Uninstall Python 3.11.4
-  pyenv:
-    version: 3.11.4
-    state: absent
-  ignore_errors: yes
+# - name: Uninstall Python 3.11.4
+#   pyenv:
+#     version: 3.11.4
+#     state: absent
+#   ignore_errors: yes
 
-- name: Uninstall Django
-  pip3:
-    name: Django
-    state: absent
-  ignore_errors: yes
+# - name: Uninstall Django
+#   pip3:
+#     name: Django
+#     state: absent
+#   ignore_errors: yes
 
 - name: Uninstall Firefox
   homebrew_cask:
@@ -43,11 +42,11 @@
     state: absent
   ignore_errors: yes
 
-- name: Uninstall Zoom
-  homebrew_cask:
-    name: zoom
-    state: absent
-  ignore_errors: yes
+# - name: Uninstall Zoom
+#   homebrew_cask:
+#     name: zoom
+#     state: absent
+#   ignore_errors: yes
 
 - name: Uninstall GitHub
   homebrew_cask:
