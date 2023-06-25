@@ -125,7 +125,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+# STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -141,3 +141,6 @@ API_KEY='YAiGuqNY3r1Ss74xlpqPKtz98VCKz1F0EKQ56bw-7RkxHA-8BbwL-vATluanxdAswWD_1g.
 INVENTORY_PATH="/Users/rsah/Desktop/JetSetPack-1/Ansible_create/inventory.ini"
 CREATE="/Users/rsah/Desktop/JetSetPack-1/Ansible_create/main.yml"
 DELETE="/Users/rsah/Desktop/JetSetPack-1/Ansible_delete/main.yml"
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')

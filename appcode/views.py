@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from .models import App, Userapp, AppName, Role
 from django.http import JsonResponse
 from .authentication import CustomIsAuthenticated, TokenAuthentication
@@ -8,13 +7,13 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from django.shortcuts import redirect
 from jetsetpack.settings import INVENTORY_PATH, CREATE, DELETE
-# from rest_framework.generics import get_object_or_404
+import os
 import json
+import base64
+from django.http import HttpResponse
+from django.shortcuts import render
 # import requests
 # from django.core import serializers
-# from rest_framework import generics, permissions
-# from rest_framework.views import APIView
-# import re
 
 
 
@@ -389,8 +388,79 @@ def get_role_apps(request):
         else:
             return JsonResponse({'message':'Invalid Role'})
     except Exception as e:
-        print('Uninstallation Failed due to error:', str(e))
+        print('Fetching of data failed due to error:', str(e))
         return JsonResponse({'message':'Some error occured'})
+    
+
+@api_view(['GET'])
+def get_images(request, role_name):
+    try:
+        folder_path = os.path.join('images', role_name)
+        if not os.path.exists(folder_path) or not os.path.isdir(folder_path):
+            return JsonResponse({'error': 'Invalid folder name'}, status=400)
+        
+        image_files = []
+        for file_name in os.listdir(folder_path):
+            if file_name.endswith('.jpg') or file_name.endswith('.png'):
+                image_files.append(os.path.join(folder_path, file_name))
+        
+        images_data = []
+        for image_file in image_files:
+            with open(image_file, 'rb') as f:
+                image_data = f.read()
+                base64_data = base64.b64encode(image_data).decode('utf-8')
+                images_data.append(base64_data)
+        
+        return JsonResponse({'images': images_data}, status=200)
+    except Exception as e:
+        print('Fetching of data failed due to error:', str(e))
+        return JsonResponse({'message':'Some error occurred'})
+
+
+# @api_view(['GET'])
+# def get_images(request,role_name):
+#     try:
+#         folder_path = os.path.join('images', role_name)
+#         if not os.path.exists(folder_path) or not os.path.isdir(folder_path):
+#             return JsonResponse({'error': 'Invalid folder name'}, status=400)
+#         image_files = []
+#         for file_name in os.listdir(folder_path):
+#             if file_name.endswith('.jpg') or file_name.endswith('.png'):
+#                 image_files.append(os.path.join(folder_path, file_name))
+#         response = HttpResponse(content_type='application/octet-stream')
+#         for image_file in image_files:
+#             with open(image_file, 'rb') as f:
+#                 response.write(f.read())
+        
+#         return response
+#     except Exception as e:
+#         print('Fetching of data failed due to error:', str(e))
+#         return JsonResponse({'message':'Some error occured'})
+
+# @api_view(['GET'])
+# def get_images(request, role_name):
+#     try:
+#         folder_path = os.path.join('images', role_name)
+#         if not os.path.exists(folder_path) or not os.path.isdir(folder_path):
+#             return JsonResponse({'error': 'Invalid folder name'}, status=400)
+        
+#         image_files = []
+#         for file_name in os.listdir(folder_path):
+#             if file_name.endswith('.jpg') or file_name.endswith('.png'):
+#                 image_files.append(os.path.join(folder_path, file_name))
+        
+#         response = HttpResponse(content_type='image/jpeg')  # Adjust content-type based on your image format
+        
+#         for image_file in image_files:
+#             with open(image_file, 'rb') as f:
+#                 response.write(f.read())
+        
+#         return response
+    
+#     except Exception as e:
+#         print('Fetching of data failed due to error:', str(e))
+#         return JsonResponse({'message': 'Some error occurred'})
+
 
 
 
