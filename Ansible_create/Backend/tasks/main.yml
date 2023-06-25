@@ -15,17 +15,17 @@
     state: present
   ignore_errors: yes
 
-# - name: Install VSCode
-#   homebrew_cask:
-#     name: visual-studio-code
-#     state: present
-#   ignore_errors: yes
+- name: Install VSCode
+  homebrew_cask:
+    name: visual-studio-code
+    state: present
+  ignore_errors: yes
 
-# - name: Install Slack
-#   homebrew_cask:
-#     name: slack
-#     state: present
-#   ignore_errors: yes
+- name: Install Slack
+  homebrew_cask:
+    name: slack
+    state: present
+  ignore_errors: yes
 
 # - name: Install pyenv
 #   homebrew_cask:
@@ -51,15 +51,21 @@
     state: present
   ignore_errors: yes
 
-# - name: Install Zoom
-#   homebrew_cask:
-#     name: zoom
-#     state: present
-#   ignore_errors: yes
+- name: Install Zoom
+  homebrew_cask:
+    name: zoom
+    state: present
+  ignore_errors: yes
 
 - name: Install GitHub
   homebrew_cask:
     name: github
+    state: present
+  ignore_errors: yes
+
+- name: Install PyCharm
+  homebrew_cask:
+    name: pycharm
     state: present
   ignore_errors: yes
 

@@ -1,0 +1,10 @@
+- name: Format Mac Laptop
+  become: yes
+  tasks:
+  - name: Format disk
+    diskutil:
+      force: yes
+      erase: ALL
+      filesystem: APFS
+      device: /dev/disk0
+      

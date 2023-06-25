@@ -1,4 +1,9 @@
 ---
+- name: Homebrew Cask repository
+  homebrew_tap:
+    tap: homebrew/cask
+    state: absent
+  ignore_errors: yes
 
 - name: Uninstall Sublime Text
   homebrew_cask:
@@ -6,17 +11,17 @@
     state: absent
   ignore_errors: yes
 
-# - name: Uninstall VSCode
-#   homebrew_cask:
-#     name: visual-studio-code
-#     state: absent
-#   ignore_errors: yes
+- name: Uninstall VSCode
+  homebrew_cask:
+    name: visual-studio-code
+    state: absent
+  ignore_errors: yes
 
-# - name: Uninstall Slack
-#   homebrew_cask:
-#     name: slack
-#     state: absent
-#   ignore_errors: yes
+- name: Uninstall Slack
+  homebrew_cask:
+    name: slack
+    state: absent
+  ignore_errors: yes
 
 # - name: Uninstall pyenv
 #   homebrew_cask:
@@ -42,11 +47,11 @@
     state: absent
   ignore_errors: yes
 
-# - name: Uninstall Zoom
-#   homebrew_cask:
-#     name: zoom
-#     state: absent
-#   ignore_errors: yes
+- name: Uninstall Zoom
+  homebrew_cask:
+    name: zoom
+    state: absent
+  ignore_errors: yes
 
 - name: Uninstall GitHub
   homebrew_cask:

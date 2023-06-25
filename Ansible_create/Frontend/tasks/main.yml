@@ -33,11 +33,12 @@
     state: present
   ignore_errors: yes
 
-- name: Install Firefox
+- name: Install Chrome
   homebrew_cask:
-    name: firefox
+    name: google-chrome
     state: present
   ignore_errors: yes
+
 
 - name: Install Zoom
   homebrew_cask:
