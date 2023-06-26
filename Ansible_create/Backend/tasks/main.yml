@@ -27,23 +27,23 @@
     state: present
   ignore_errors: yes
 
-# - name: Install pyenv
-#   homebrew_cask:
-#     name: pyenv
-#     state: present
-#   ignore_errors: yes
+- name: Install Python
+  brew:
+    name: python3
+    state: present
+  ignore_errors: yes
 
-# - name: Install Python 3.11.4
-#   pyenv:
-#     version: 3.11.4
-#     state: present
-#   ignore_errors: yes
+- name: Install Pip
+  brew:
+    name: pip
+    state: present
+  ignore_errors: yes
 
-# - name: Install Django
-#   pip3:
-#     name: Django
-#     state: present
-#   ignore_errors: yes
+- name: Install Django
+  pip:
+    name: django
+    state: present
+  ignore_errors: yes
 
 - name: Install Firefox
   homebrew_cask:

@@ -39,7 +39,6 @@
     state: present
   ignore_errors: yes
 
-
 - name: Install Zoom
   homebrew_cask:
     name: zoom

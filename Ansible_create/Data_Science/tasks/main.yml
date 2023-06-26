@@ -27,15 +27,15 @@
     state: present
   ignore_errors: yes
 
-- name: Install pyenv
-  homebrew_cask:
-    name: pyenv
+- name: Install Python
+  brew:
+    name: python3
     state: present
   ignore_errors: yes
 
-- name: Install Python 3.11.4
-  pyenv:
-    version: 3.11.4
+- name: Install Pip
+  brew:
+    name: pip
     state: present
   ignore_errors: yes
 

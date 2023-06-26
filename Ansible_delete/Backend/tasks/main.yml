@@ -23,23 +23,23 @@
     state: absent
   ignore_errors: yes
 
-# - name: Uninstall pyenv
-#   homebrew_cask:
-#     name: pyenv
-#     state: absent
-#   ignore_errors: yes
+- name: Uninstall Python
+  brew:
+    name: python3
+    state: absent
+  ignore_errors: yes
 
-# - name: Uninstall Python 3.11.4
-#   pyenv:
-#     version: 3.11.4
-#     state: absent
-#   ignore_errors: yes
+- name: Uninstall Pip
+  brew:
+    name: pip
+    state: absent
+  ignore_errors: yes
 
-# - name: Uninstall Django
-#   pip3:
-#     name: Django
-#     state: absent
-#   ignore_errors: yes
+- name: Uninstall Django
+  pip:
+    name: django
+    state: absent
+  ignore_errors: yes
 
 - name: Uninstall Firefox
   homebrew_cask:
