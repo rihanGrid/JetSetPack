@@ -403,6 +403,7 @@ def get_images(request, role_name):
         for file_name in os.listdir(folder_path):
             if file_name.endswith('.jpg') or file_name.endswith('.png'):
                 image_files.append(os.path.join(folder_path, file_name))
+        print("No of images---->", len(image_files))
         
         images_data = []
         for image_file in image_files:
@@ -410,6 +411,7 @@ def get_images(request, role_name):
                 image_data = f.read()
                 base64_data = base64.b64encode(image_data).decode('utf-8')
                 images_data.append(base64_data)
+        print("size of image is ----->",len(image_data))
         
         return JsonResponse({'images': images_data}, status=200)
     except Exception as e:
