@@ -380,6 +380,42 @@ def create_app(request):
 
 
 
+@swagger_auto_schema(
+    method='get',
+    manual_parameters=[
+        openapi.Parameter(
+            'role',
+            openapi.IN_QUERY,
+            type=openapi.TYPE_STRING,
+            required=True,
+            description='Role name',
+        ),
+    ],
+    responses={
+        200: openapi.Response(
+            description='Successful',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'app_names': openapi.Schema(
+                        type=openapi.TYPE_ARRAY,
+                        items=openapi.Schema(type=openapi.TYPE_STRING, description='App name'),
+                    ),
+                },
+            ),
+        ),
+        400: openapi.Response(
+            description='Error',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, description='Error message'),
+                },
+            ),
+        ),
+    }
+)
+
 @api_view(['GET'])
 def get_role_apps(request):
     try:
@@ -396,7 +432,45 @@ def get_role_apps(request):
     except Exception as e:
         print('Fetching of data failed due to error:', str(e))
         return JsonResponse({'message':'Some error occured'})
-    
+
+
+
+
+@swagger_auto_schema(
+    method='get',
+    manual_parameters=[
+        openapi.Parameter(
+            'role_name',
+            openapi.IN_PATH,
+            type=openapi.TYPE_STRING,
+            required=True,
+            description='Role name',
+        ),
+    ],
+    responses={
+        200: openapi.Response(
+            description='Successful',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'images': openapi.Schema(
+                        type=openapi.TYPE_ARRAY,
+                        items=openapi.Schema(type=openapi.TYPE_STRING, format='binary', description='Base64-encoded image data'),
+                    ),
+                },
+            ),
+        ),
+        400: openapi.Response(
+            description='Error',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'error': openapi.Schema(type=openapi.TYPE_STRING, description='Error message'),
+                },
+            ),
+        ),
+    }
+)
 
 @api_view(['GET'])
 def get_images(request, role_name):
