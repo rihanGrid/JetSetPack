@@ -27,17 +27,17 @@
     state: present
   ignore_errors: yes
 
-- name: Install Python
-  brew:
-    name: python3
+- name: Install Pyenv
+  homebrew:
+    name: pyenv
     state: present
   ignore_errors: yes
 
-- name: Install Pip
-  brew:
-    name: pip
-    state: present
-  ignore_errors: yes
+# - name: Install Python
+#   pyenv:
+#     name: 3.9.2 
+#     state: present
+#   ignore_errors: yes
 
 - name: Install Firefox
   homebrew_cask:
@@ -45,11 +45,11 @@
     state: present
   ignore_errors: yes
 
-- name: Install Zoom
-  homebrew_cask:
-    name: zoom
-    state: present
-  ignore_errors: yes
+# - name: Install Zoom
+#   homebrew_cask:
+#     name: zoom
+#     state: present
+#   ignore_errors: yes
 
 - name: Install GitHub
   homebrew_cask:

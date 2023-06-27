@@ -1,5 +1,11 @@
 ---
 
+- name: Uninstall Homebrew Cask repository
+  homebrew_tap:
+    tap: homebrew/cask
+    state: absent
+  ignore_errors: yes
+
 - name: Uninstall Sublime Text
   homebrew_cask:
     name: sublime-text
@@ -25,11 +31,11 @@
     state: absent
   ignore_errors: yes
 
-- name: Uninstall Python 3.11.4
-  pyenv:
-    version: 3.11.4
-    state: absent
-  ignore_errors: yes
+# - name: Uninstall Python 3.11.4
+#   pyenv:
+#     version: 3.11.4
+#     state: absent
+#   ignore_errors: yes
 
 - name: Uninstall Firefox
   homebrew_cask:
@@ -37,11 +43,11 @@
     state: absent
   ignore_errors: yes
 
-- name: Uninstall Zoom
-  homebrew_cask:
-    name: zoom
-    state: absent
-  ignore_errors: yes
+# - name: Uninstall Zoom
+#   homebrew_cask:
+#     name: zoom
+#     state: absent
+#   ignore_errors: yes
 
 - name: Uninstall GitHub
   homebrew_cask:

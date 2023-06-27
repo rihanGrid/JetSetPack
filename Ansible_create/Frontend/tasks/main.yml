@@ -28,7 +28,7 @@
   ignore_errors: yes
 
 - name: Install Node
-  homebrew_cask:
+  homebrew:
     name: node
     state: present
   ignore_errors: yes

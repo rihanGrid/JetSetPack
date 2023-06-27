@@ -20,7 +20,7 @@
   ignore_errors: yes
 
 - name: Uninstall Node
-  homebrew_cask:
+  homebrew:
     name: node
     state: absent
   ignore_errors: yes
@@ -31,11 +31,11 @@
     state: absent
   ignore_errors: yes
 
-- name: Uninstall Zoom
-  homebrew_cask:
-    name: zoom
-    state: absent
-  ignore_errors: yes
+# - name: Uninstall Zoom
+#   homebrew_cask:
+#     name: zoom
+#     state: absent
+#   ignore_errors: yes
 
 - name: Uninstall GitHub
   homebrew_cask:

@@ -183,9 +183,14 @@ def set_environment(request):
                                 user.app.add(ap)
                                 
                     else:
-                        data = {task_name:"Failed"}
+                        data = {task_name:"Already Exists"}
                         res.update(data)
-                        print(f"Task '{task_name}' failed")
+                        print(f"Task '{task_name}' already exists")
+            # if event['event'] == 'runner_on_failed':
+            #     result = event['event_data']
+            #     t_name = result['task']
+            #     error_msg = result['res']['msg']
+            #     print(f"Task '{t_name}' failed with error: {error_msg}")
         return JsonResponse({'message': 'Installation Successful', 'data':res})
     except Exception as e:
         print("Installation Failed due to error:", str(e))
@@ -271,7 +276,7 @@ def delete_environment(request):
                                 user.app.remove(ap)
 
                     else:
-                        data = {task_name:"Failed"}
+                        data = {task_name:"Doesn't Exists"}
                         res.update(data)
                         print(f"Task '{task_name}' was not successful")
         return JsonResponse({'message': 'Deletion Successful', 'data': res})
@@ -361,6 +366,7 @@ def create_app(request):
                 ro = Role.objects.get(name = role_name)
                 ap = AppName.objects.get(name=app_name)
                 ro.apps.add(ap)
+                return JsonResponse({'message':'Apps added Suscessfully'})
             else:
                 ro = Role.objects.get(name = role_name)
                 ap = AppName.objects.create(name = app_name)
