@@ -1,7 +1,7 @@
 ---
 
 - name: Install Homebrew
-  shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 - name: Homebrew Cask repository
   homebrew_tap:
@@ -28,16 +28,11 @@
   ignore_errors: yes
 
 - name: Install Python
-  brew:
+  homebrew:
     name: python3
     state: present
   ignore_errors: yes
 
-- name: Install Pip
-  brew:
-    name: pip
-    state: present
-  ignore_errors: yes
 
 - name: Install Django
   pip:
@@ -68,6 +63,18 @@
     name: pycharm
     state: present
   ignore_errors: yes
+
+# - name: Install IntelliJ IDEA
+#   homebrew_cask:
+#     name: intellij-idea-ce
+#     state: present
+#   ignore_errors: yes
+
+# - name: Install Java JDK 20.0.1
+#   homebrew_cask:
+#     name: oracle-jdk
+#     state: present
+#   ignore_errors: yes
 
 
 

@@ -1,5 +1,5 @@
 ---
-- name: Homebrew Cask repository
+- name: Uninstall Homebrew Cask repository
   homebrew_tap:
     tap: homebrew/cask
     state: absent
@@ -24,16 +24,11 @@
   ignore_errors: yes
 
 - name: Uninstall Python
-  brew:
+  homebrew:
     name: python3
     state: absent
   ignore_errors: yes
 
-- name: Uninstall Pip
-  brew:
-    name: pip
-    state: absent
-  ignore_errors: yes
 
 - name: Uninstall Django
   pip:
@@ -47,14 +42,20 @@
     state: absent
   ignore_errors: yes
 
-- name: Uninstall Zoom
-  homebrew_cask:
-    name: zoom
-    state: absent
-  ignore_errors: yes
+# - name: Uninstall Zoom
+#   homebrew_cask:
+#     name: zoom
+#     state: absent
+#   ignore_errors: yes
 
 - name: Uninstall GitHub
   homebrew_cask:
     name: github
+    state: absent
+  ignore_errors: yes
+
+- name: Uninstall PyCharm
+  homebrew_cask:
+    name: pycharm
     state: absent
   ignore_errors: yes
