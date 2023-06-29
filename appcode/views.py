@@ -545,29 +545,6 @@ def get_images(request, role_name):
 
 
 
-
-@api_view(['GET'])
-def create_github_account(request):
-    if request.method == 'GET':
-        try:
-            url = 'https://github.com/join' 
-            return redirect(url)
-        except:
-            return JsonResponse({'message':'User is not authenticated'})
-        
-
-
-@api_view(['GET'])
-def create_slack_account(request):
-    if request.method == 'GET':
-        try:
-            url = 'https://slack.com/signin#/signin' 
-            return redirect(url)
-        except:
-            return JsonResponse({'message':'User is not authenticated'})
-
-
-
 @api_view(['GET'])
 @permission_classes([CustomIsAuthenticated])
 @authentication_classes([TokenAuthentication])
@@ -585,3 +562,20 @@ def get_profile(request):
             return JsonResponse({'message':'User doesn\'t exist'}, status=400)
     except Exception as e:
         return JsonResponse({'message':'Some unknown exception occured'}, status=400)
+
+
+
+
+@api_view(['GET'])
+def create_github_account(request):
+    if request.method == 'GET':
+        url = 'https://github.com/join' 
+        return redirect(url)
+        
+
+
+@api_view(['GET'])
+def create_slack_account(request):
+    if request.method == 'GET':
+        url = 'https://slack.com/signin#/signin' 
+        return redirect(url)
