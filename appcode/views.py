@@ -1,4 +1,4 @@
-from .models import App, Userapp, AppName, Role
+from .models import App, Userapp, AppName, Role, Auth
 from django.http import JsonResponse
 from .authentication import CustomIsAuthenticated, TokenAuthentication
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
@@ -568,4 +568,20 @@ def create_slack_account(request):
 
 
 
-
+@api_view(['GET'])
+@permission_classes([CustomIsAuthenticated])
+@authentication_classes([TokenAuthentication])
+def get_profile(request):
+    try:
+        u = request.user
+        user = Auth.objects.filter(username=u).exists()
+        if user:
+            a = Auth.objects.get(username=u)
+            uname = a.username
+            email = a.email
+            temp = {'username':uname, 'email':email}
+            return JsonResponse({'data':temp}, status=200)
+        else:
+            return JsonResponse({'message':'User doesn\'t exist'}, status=400)
+    except Exception as e:
+        return JsonResponse({'message':'Some unknown exception occured'}, status=400)
