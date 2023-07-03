@@ -579,3 +579,70 @@ def create_slack_account(request):
     if request.method == 'GET':
         url = 'https://slack.com/signin#/signin' 
         return redirect(url)
+    
+
+@api_view(['POST'])
+@permission_classes([CustomIsAuthenticated])
+@authentication_classes([TokenAuthentication])
+def set_single_app(request,app_name):
+    inventory_path = INVENTORY_PATH
+    playbook_path = CREATE
+    hosts = 'client'
+    roles = app_name
+
+    try:
+        options = {
+            'inventory': inventory_path,
+            'playbook': playbook_path,
+            'extravars': {'hosts': hosts, 'roles': roles}
+        }
+
+        r = ansible_runner.run(**options)
+        res = {}
+        for event in r.events:
+            if event['event'] == 'runner_on_ok':
+                result = event['event_data']
+
+                t_name = result['task']
+                task_status = result['res']['changed']
+                if t_name == 'Gathering Facts':
+                    pass
+                else:
+                    matches = t_name.split()
+                    task_name = matches[1]
+                    print(task_name)
+                    if task_status:
+                        data = {task_name:"Suscessful"}
+                        res.update(data)
+                        print(f"Task '{task_name}' was successful")
+
+                        user = Userapp.objects.filter(username=request.user).exists()
+                        app = App.objects.filter(name=task_name).exists()
+
+                        if not user:
+                            user = Userapp.objects.create(username=request.user)
+                            if not app:
+                                ap = App.objects.create(name=task_name)
+                                user.app.add(ap)
+                            else:
+                                ap = App.objects.get(name=task_name)
+                                user.app.add(ap)
+                            
+                        else:
+                            user = Userapp.objects.get(username=request.user)
+                            if not app:
+                                ap = App.objects.create(name=task_name)
+                                user.app.add(ap)
+                                
+                            else:
+                                ap = App.objects.get(name=task_name)
+                                user.app.add(ap)
+                                
+                    else:
+                        data = {task_name:"Already Exists"}
+                        res.update(data)
+                        print(f"Task '{task_name}' already exists")
+        return JsonResponse({'data':res})
+    except Exception as e:
+        print("Installation Failed due to error:", str(e))
+        return JsonResponse({'message': 'Installation Failed due to some error'})

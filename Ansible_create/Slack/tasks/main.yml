@@ -1,0 +1,7 @@
+---
+
+- name: Install Slack
+  homebrew_cask:
+    name: slack
+    state: present
+  ignore_errors: yes
