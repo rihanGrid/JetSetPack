@@ -8,9 +8,9 @@ from drf_yasg.utils import swagger_auto_schema
 from django.shortcuts import redirect
 from jetsetpack.settings import INVENTORY_PATH, CREATE, DELETE
 import os
-import json
+# import json
 import base64
-from django.http import HttpResponse
+# from django.http import HttpResponse
 from django.shortcuts import render
 # import requests
 # from django.core import serializers
@@ -483,14 +483,17 @@ def get_images(request, role_name):
         for file_name in os.listdir(folder_path):
             if file_name.endswith('.jpg') or file_name.endswith('.png'):
                 image_files.append(os.path.join(folder_path, file_name))
+                # print("file name--->",file_name)
         print("No of images---->", len(image_files))
         
         images_data = []
         for image_file in image_files:
+            print("image file name----->",image_file[15:(len(image_file)-4)])
             with open(image_file, 'rb') as f:
                 image_data = f.read()
                 base64_data = base64.b64encode(image_data).decode('utf-8')
-                images_data.append(base64_data)
+                # images_data.append(base64_data)
+                images_data.append({image_file[15:(len(image_file)-4)]:base64_data})
         print("size of image is ----->",len(image_data))
         
         return JsonResponse({'images': images_data}, status=200)
@@ -646,3 +649,4 @@ def set_single_app(request,app_name):
     except Exception as e:
         print("Installation Failed due to error:", str(e))
         return JsonResponse({'message': 'Installation Failed due to some error'})
+
