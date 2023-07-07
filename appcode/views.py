@@ -8,10 +8,11 @@ from drf_yasg.utils import swagger_auto_schema
 from django.shortcuts import redirect
 from jetsetpack.settings import INVENTORY_PATH, CREATE, DELETE
 import os
-# import json
+from rest_framework.views import APIView
 import base64
+# import json
 # from django.http import HttpResponse
-from django.shortcuts import render
+# from django.shortcuts import render
 # import requests
 # from django.core import serializers
 
@@ -340,100 +341,6 @@ def get_apps(request):
             return JsonResponse({'app_names': app_names})
     except:
         return JsonResponse({'message':'Some error occured'})
-    
-
-@api_view(['POST'])
-def create_role(request):
-    try:
-        role_name = request.data.get('role')
-        if Role.objects.filter(name=role_name).exists():
-            return JsonResponse({'message':'Role already exists'})
-        else:
-           role = Role.objects.create(name=role_name)
-           return JsonResponse({'message':'Role added Suscessfully'})
-    except Exception as e:
-        print('Uninstallation Failed due to error:', str(e))
-        return JsonResponse({'message':'Some error occured'})
-
-
-@api_view(['POST'])
-def create_app(request):
-    try:
-        role_name = request.data.get('role')
-        app_name = request.data.get('app')
-        if Role.objects.filter(name=role_name).exists():
-            if AppName.objects.filter(name=app_name).exists():
-                ro = Role.objects.get(name = role_name)
-                ap = AppName.objects.get(name=app_name)
-                ro.apps.add(ap)
-                return JsonResponse({'message':'Apps added Suscessfully'})
-            else:
-                ro = Role.objects.get(name = role_name)
-                ap = AppName.objects.create(name = app_name)
-                ro.apps.add(ap)
-                return JsonResponse({'message':'Apps added Suscessfully'})
-        else:
-            return JsonResponse({'message':'Role does not exist'})
-    except Exception as e:
-        print('Uninstallation Failed due to error:', str(e))
-        return JsonResponse({'message':'Some error occured'})
-
-
-
-@swagger_auto_schema(
-    method='get',
-    manual_parameters=[
-        openapi.Parameter(
-            'role',
-            openapi.IN_QUERY,
-            type=openapi.TYPE_STRING,
-            required=True,
-            description='Role name',
-        ),
-    ],
-    responses={
-        200: openapi.Response(
-            description='Successful',
-            schema=openapi.Schema(
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'app_names': openapi.Schema(
-                        type=openapi.TYPE_ARRAY,
-                        items=openapi.Schema(type=openapi.TYPE_STRING, description='App name'),
-                    ),
-                },
-            ),
-        ),
-        400: openapi.Response(
-            description='Error',
-            schema=openapi.Schema(
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'message': openapi.Schema(type=openapi.TYPE_STRING, description='Error message'),
-                },
-            ),
-        ),
-    }
-)
-
-@api_view(['GET'])
-def get_role_apps(request):
-    try:
-        role_name = request.data.get('role')
-        if Role.objects.filter(name=role_name).exists():
-            role = Role.objects.get(name = role_name)
-            related_apps = role.apps.all()
-            app_names = [app.name for app in related_apps]
-            for app_name in app_names:
-                print(app_name)
-            return JsonResponse({'app_names': app_names})
-        else:
-            return JsonResponse({'message':'Invalid Role'})
-    except Exception as e:
-        print('Fetching of data failed due to error:', str(e))
-        return JsonResponse({'message':'Some error occured'})
-
-
 
 
 @swagger_auto_schema(
@@ -650,3 +557,152 @@ def set_single_app(request,app_name):
         print("Installation Failed due to error:", str(e))
         return JsonResponse({'message': 'Installation Failed due to some error'})
 
+
+class RoleView(APIView):
+    def post(self,request,role_name=None,app_name=None):
+        try:
+            if role_name is None:
+                return JsonResponse({'message':'role_name missing'},status=200)
+            else:
+                if Role.objects.filter(name=role_name).exists():
+                    role = Role.objects.get(name=role_name)
+                    if app_name is None:
+                        return JsonResponse({'message':'Role already exists'},status=200)
+                    else:
+                        if AppName.objects.filter(name=app_name).exists():
+                            app = AppName.objects.get(name=app_name)
+                            role.apps.add(app)
+                            return JsonResponse({'message':'Apps added Suscessfully'},status=200)
+                        else:
+                            app = AppName.objects.create(name = app_name)
+                            role.apps.add(app)
+                            return JsonResponse({'message':'Apps added Suscessfully'},status=200)
+                else:
+                    role = Role.objects.create(name=role_name)
+                    if app_name is None:
+                        return JsonResponse({'message':'Role created suscessfully'},status=200)
+                    else:
+                        if AppName.objects.filter(name=app_name).exists():
+                            app = AppName.objects.get(name=app_name)
+                            role.apps.add(app)
+                            return JsonResponse({'message':'Roles created suscessfully and Apps added to that role suscessfully'},status=200)
+                        else:
+                            app = AppName.objects.create(name = app_name)
+                            role.apps.add(app)
+                            return JsonResponse({'message':'Role and App created suscessfully App added suscessfully to created role'},status=200)
+        except Exception as e:
+            print("Operation Failed due to error:", str(e))
+            return JsonResponse({'message': 'Operation Failed due to some error'})
+        
+    def get(self,request,role_name=None):
+        try:
+            if role_name is None:
+                roles = Role.objects.all()
+                role_all = [role.name for role in roles]
+                print(role_all)
+                return JsonResponse({'Role': role_all},status=200)
+            else:
+                if Role.objects.filter(name=role_name).exists():
+                    role = Role.objects.get(name = role_name)
+                    related_apps = role.apps.all()
+                    app_names = [app.name for app in related_apps]
+                    for app_name in app_names:
+                        print(app_name)
+                    return JsonResponse({'app_names': app_names})
+                else:
+                    return JsonResponse({'message':'Role doesn\'t exist'},status=200)
+        except Exception as e:
+            print("Operation failed due to error:",str(e))
+            return JsonResponse({'message':'Operation failed'},status=404)
+
+
+# @api_view(['POST'])
+# def create_role(request):
+#     try:
+#         role_name = request.data.get('role')
+#         if Role.objects.filter(name=role_name).exists():
+#             return JsonResponse({'message':'Role already exists'})
+#         else:
+#            role = Role.objects.create(name=role_name)
+#            return JsonResponse({'message':'Role added Suscessfully'})
+#     except Exception as e:
+#         print('Uninstallation Failed due to error:', str(e))
+#         return JsonResponse({'message':'Some error occured'})
+
+
+# @api_view(['POST'])
+# def create_app(request):
+#     try:
+#         role_name = request.data.get('role')
+#         app_name = request.data.get('app')
+#         if Role.objects.filter(name=role_name).exists():
+#             if AppName.objects.filter(name=app_name).exists():
+#                 ro = Role.objects.get(name = role_name)
+#                 ap = AppName.objects.get(name=app_name)
+#                 ro.apps.add(ap)
+#                 return JsonResponse({'message':'Apps added Suscessfully'})
+#             else:
+#                 ro = Role.objects.get(name = role_name)
+#                 ap = AppName.objects.create(name = app_name)
+#                 ro.apps.add(ap)
+#                 return JsonResponse({'message':'Apps added Suscessfully'})
+#         else:
+#             return JsonResponse({'message':'Role does not exist'})
+#     except Exception as e:
+#         print('Uninstallation Failed due to error:', str(e))
+#         return JsonResponse({'message':'Some error occured'})
+
+
+
+# @swagger_auto_schema(
+#     method='get',
+#     manual_parameters=[
+#         openapi.Parameter(
+#             'role',
+#             openapi.IN_QUERY,
+#             type=openapi.TYPE_STRING,
+#             required=True,
+#             description='Role name',
+#         ),
+#     ],
+#     responses={
+#         200: openapi.Response(
+#             description='Successful',
+#             schema=openapi.Schema(
+#                 type=openapi.TYPE_OBJECT,
+#                 properties={
+#                     'app_names': openapi.Schema(
+#                         type=openapi.TYPE_ARRAY,
+#                         items=openapi.Schema(type=openapi.TYPE_STRING, description='App name'),
+#                     ),
+#                 },
+#             ),
+#         ),
+#         400: openapi.Response(
+#             description='Error',
+#             schema=openapi.Schema(
+#                 type=openapi.TYPE_OBJECT,
+#                 properties={
+#                     'message': openapi.Schema(type=openapi.TYPE_STRING, description='Error message'),
+#                 },
+#             ),
+#         ),
+#     }
+# )
+
+# @api_view(['GET'])
+# def get_role_apps(request):
+#     try:
+#         role_name = request.data.get('role')
+#         if Role.objects.filter(name=role_name).exists():
+#             role = Role.objects.get(name = role_name)
+#             related_apps = role.apps.all()
+#             app_names = [app.name for app in related_apps]
+#             for app_name in app_names:
+#                 print(app_name)
+#             return JsonResponse({'app_names': app_names})
+#         else:
+#             return JsonResponse({'message':'Invalid Role'})
+#     except Exception as e:
+#         print('Fetching of data failed due to error:', str(e))
+#         return JsonResponse({'message':'Some error occured'})
