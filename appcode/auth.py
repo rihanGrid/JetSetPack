@@ -11,6 +11,7 @@ import jwt
 import datetime
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
+from .emailValidate import validate_email
 
 
 JWT_SECRET = 'griddynamics'
@@ -96,6 +97,10 @@ def signup(request):
         existing_user = Auth.objects.filter(Q(username=data['username']) | Q(email=data['email']))
         if existing_user:
             return Response(status=409, data={'error': 'User with the same username or email already exists'})
+        # email_validate = data['email']
+        # check = validate_email(email_validate)
+        # if check is False:
+        #     return Response({'message':'Email you entered is invalid'})
         password_hash = pbkdf2_sha256.hash(data['password'])
         user = {
             'username': data['username'],
